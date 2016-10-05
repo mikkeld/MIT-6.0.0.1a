@@ -286,17 +286,21 @@ def playGame(wordList):
     """
 
     userInput = input('Enter n to deal a new hand, r to replay the last hand, or e to end game: ')
-    hand = False
     if userInput == 'n':
+        global hand
         hand = dealHand(HAND_SIZE)
         playHand(hand, wordList, HAND_SIZE)
+        playGame(wordList)
     elif userInput == 'r':
-        if not hand:
-            print('You have not played a hand yet. Please play a new hand first!')
-        else:
+        try:
+            hand
             playHand(hand, wordList, HAND_SIZE)
+            playGame(wordList)
+        except NameError:
+            print('You have not played a hand yet. Please play a new hand first!')
+            playGame(wordList)
     elif userInput == 'e':
-        print('Exit')
+        exit()
     else:
         print('Invalid command')
 
